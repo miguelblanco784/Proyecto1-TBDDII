@@ -93,8 +93,8 @@ public class MainGUI extends javax.swing.JFrame {
             DefaultListModel modelo = (DefaultListModel) jl_productos.getModel();
 
             for (Document document : farmaciaslista) {
-                modelo.addElement(document);
-                System.out.println(document);
+                modelo.addElement(document.toJson());
+                System.out.println(document.toJson());
             }
 
             jl_productos.setModel(modelo);
@@ -111,8 +111,8 @@ public class MainGUI extends javax.swing.JFrame {
             DefaultListModel modelo = (DefaultListModel) jl_almacenes.getModel();
 
             for (Document document : farmaciaslista) {
-                modelo.addElement(document);
-                System.out.println(document);
+                modelo.addElement(document.toJson());
+                System.out.println(document.toJson());
             }
 
             jl_almacenes.setModel(modelo);
@@ -129,8 +129,8 @@ public class MainGUI extends javax.swing.JFrame {
             DefaultListModel modelo = (DefaultListModel) jl_farmaceuticos.getModel();
 
             for (Document document : farmaciaslista) {
-                modelo.addElement(document);
-                System.out.println(document);
+                modelo.addElement(document.toJson());
+                System.out.println(document.toJson());
             }
 
             jl_farmaceuticos.setModel(modelo);
@@ -147,8 +147,9 @@ public class MainGUI extends javax.swing.JFrame {
             DefaultListModel modelo = (DefaultListModel) jl_farmacias.getModel();
 
             for (Document document : farmaciaslista) {
-                modelo.addElement(document);
-                System.out.println(document);
+                modelo.addElement(document.toJson());
+                System.out.println("toJson");
+                System.out.println(document.toJson());
             }
 
             jl_farmacias.setModel(modelo);
@@ -165,8 +166,8 @@ public class MainGUI extends javax.swing.JFrame {
             DefaultListModel modelo = (DefaultListModel) jl_laboratorios.getModel();
 
             for (Document document : farmaciaslista) {
-                modelo.addElement(document);
-                System.out.println(document);
+                modelo.addElement(document.toJson());
+                System.out.println(document.toJson());
             }
 
             jl_laboratorios.setModel(modelo);
@@ -183,8 +184,8 @@ public class MainGUI extends javax.swing.JFrame {
             DefaultListModel modelo = (DefaultListModel) jl_propietarios.getModel();
 
             for (Document document : farmaciaslista) {
-                modelo.addElement(document);
-                System.out.println(document);
+                modelo.addElement(document.toJson());
+                System.out.println(document.toJson());
             }
 
             jl_propietarios.setModel(modelo);
@@ -621,12 +622,8 @@ public class MainGUI extends javax.swing.JFrame {
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton18ActionPerformed
-  
-  
-  
-  
-  
-  
+
+
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         MongoClient mongoClient = MongoClients.create(
                 "mongodb+srv://Francisco:hola12345@cluster0.dxkw8.mongodb.net/SistemaFarmacias?retryWrites=true&w=majority");
