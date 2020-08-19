@@ -73,9 +73,9 @@ public class MainGUI extends javax.swing.JFrame {
         farmacia.insertOne(doc);
     }
 
-    public void deleteCollectionProductos(MongoClient mongoClient) {
+    public void deleteCollectionProductos(MongoClient mongoClient, int id) {
         MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("productos");
-        Document doc = new Document("_id", 6);
+        Document doc = new Document("_id", id);
         farmacia.deleteOne(doc);
     }
 
@@ -484,6 +484,11 @@ public class MainGUI extends javax.swing.JFrame {
         jButton5.setText("Modificar");
 
         jButton6.setText("Eliminar");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton7.setText("Crear");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
@@ -613,11 +618,27 @@ public class MainGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        MongoClient mongoClient = MongoClients.create(
+                "mongodb+srv://Francisco:hola12345@cluster0.dxkw8.mongodb.net/SistemaFarmacias?retryWrites=true&w=majority");
         String x = (String) jl_productos.getSelectedValue();
         System.out.println(x);
-//Jsonjl_productos.getSelectedIndex();
-        //deleteCollectionProductos(mongoClient);
-        // TODO add your handling code here:
+        int inicio, fin;
+        inicio = 0;
+        fin = 0;
+        for (int i = 0; i < x.length(); i++) {
+            if (x.charAt(i) == ':') {
+                inicio = i + 2;
+            }
+            if (i > 0 & x.charAt(i) == ',') {
+                fin = i;
+                i = x.length();
+            }
+        }
+        System.out.println(x.substring(inicio, fin));
+        int id = Integer.parseInt(x.substring(inicio, fin));
+        System.out.println(id);
+        deleteCollectionProductos(mongoClient, id);
+        listCollectionProductos(mongoClient);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
