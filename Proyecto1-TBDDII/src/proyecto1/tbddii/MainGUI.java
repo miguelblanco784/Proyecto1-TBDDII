@@ -52,6 +52,7 @@ public class MainGUI extends javax.swing.JFrame {
             listCollectionFarmacias(mongoClient);
             listCollectionLaboratorios(mongoClient);
             listCollectionPropietarios(mongoClient);
+            listCollectionFarmaciasVenta(mongoClient);
 
             /*MongoIterable<String> string = mongoClient.listDatabaseNames();
             MongoCursor<String> cursor = string.cursor();
@@ -241,7 +242,14 @@ public class MainGUI extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
         jScrollPane6 = new javax.swing.JScrollPane();
         jl_productos = new javax.swing.JList<>();
+        COMPRA = new javax.swing.JDialog();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jl_compra = new javax.swing.JList<>();
+        jLabel2 = new javax.swing.JLabel();
+        jButton21 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jButton20 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         CRUD.setPreferredSize(new java.awt.Dimension(1280, 820));
 
@@ -550,10 +558,48 @@ public class MainGUI extends javax.swing.JFrame {
             .addComponent(jTabbedPane1)
         );
 
+        jl_compra.setModel(new DefaultListModel());
+        jScrollPane1.setViewportView(jl_compra);
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyecto1/images/comprar (1).png"))); // NOI18N
+
+        jButton21.setText("Seleccionar Farmacia");
+        jButton21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton21ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout COMPRALayout = new javax.swing.GroupLayout(COMPRA.getContentPane());
+        COMPRA.getContentPane().setLayout(COMPRALayout);
+        COMPRALayout.setHorizontalGroup(
+            COMPRALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 659, Short.MAX_VALUE)
+            .addGroup(COMPRALayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel2))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, COMPRALayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton21, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        COMPRALayout.setVerticalGroup(
+            COMPRALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(COMPRALayout.createSequentialGroup()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addComponent(jButton21, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("FARMACIA");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        jButton1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyecto1/images/sistema.png"))); // NOI18N
         jButton1.setText("CRUD");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -561,22 +607,47 @@ public class MainGUI extends javax.swing.JFrame {
             }
         });
 
+        jButton20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyecto1/images/farmaco.png"))); // NOI18N
+        jButton20.setText("COMPRA");
+        jButton20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton20ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyecto1/images/hospital.png"))); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(1003, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jButton20)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(176, 176, 176)
+                .addComponent(jLabel1)
+                .addContainerGap(177, Short.MAX_VALUE))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jButton20});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(591, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton20))
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton1, jButton20});
 
         pack();
         setLocationRelativeTo(null);
@@ -648,6 +719,43 @@ public class MainGUI extends javax.swing.JFrame {
         listCollectionProductos(mongoClient);
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
+        String x = (String) jl_compra.getSelectedValue();
+        System.out.println(x);
+        int inicio, fin;
+        inicio = 0;
+        fin = 0;
+        for (int i = 0; i < x.length(); i++) {
+            if (x.charAt(i) == ':') {
+                inicio = i + 2;
+            }
+            if (i > 0 & x.charAt(i) == ',') {
+                fin = i;
+                i = x.length();
+            }
+        }
+        System.out.println(x.substring(inicio, fin));
+        Double p = Double.parseDouble(x.substring(inicio, fin));
+        System.out.println(p);
+
+        int id = (int) Math.round(p);
+        System.out.println(id);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton21ActionPerformed
+
+    private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
+        this.setVisible(false);
+        COMPRA.setSize(WIDTH, HEIGHT);
+        COMPRA.setModal(true);
+
+        COMPRA.pack();
+        COMPRA.setLocationRelativeTo(this);
+        COMPRA.setVisible(true);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton20ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -684,6 +792,7 @@ public class MainGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDialog COMPRA;
     private javax.swing.JDialog CRUD;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
@@ -697,6 +806,8 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton18;
     private javax.swing.JButton jButton19;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton20;
+    private javax.swing.JButton jButton21;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -704,12 +815,15 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane6;
@@ -718,10 +832,30 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JList<String> jl_almacenes;
+    private javax.swing.JList<String> jl_compra;
     private javax.swing.JList<String> jl_farmaceuticos;
     private javax.swing.JList<String> jl_farmacias;
     private javax.swing.JList<String> jl_laboratorios;
     private javax.swing.JList<String> jl_productos;
     private javax.swing.JList<String> jl_propietarios;
     // End of variables declaration//GEN-END:variables
+
+    public void listCollectionFarmaciasVenta(MongoClient mongoClient) {
+        try {
+            MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("farmacias");
+            List<Document> farmaciaslista = farmacia.find().into(new ArrayList<>());
+
+            DefaultListModel modelo = (DefaultListModel) jl_compra.getModel();
+
+            for (Document document : farmaciaslista) {
+                modelo.addElement(document.toJson());
+                System.out.println(document.toJson());
+            }
+
+            jl_compra.setModel(modelo);
+        } catch (Exception e) {
+            System.out.println("el error es aqui " + e.getMessage());
+        }
+    }
+
 }
