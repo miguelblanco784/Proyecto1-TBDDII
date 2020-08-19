@@ -37,7 +37,6 @@ public class MainGUI extends javax.swing.JFrame {
         try {
             mongoLogger = Logger.getLogger("org.mongodb.driver");
             mongoLogger.setLevel(Level.SEVERE);
-
             mongoClient = MongoClients.create(
                     "mongodb+srv://Francisco:hola12345@cluster0.dxkw8.mongodb.net/SistemaFarmacias?retryWrites=true&w=majority");
             //mongodb+srv://Francisco:hola12345@cluster0.dxkw8.mongodb.net/SistemaFarmacias?retryWrites=true&w=majority
@@ -47,7 +46,7 @@ public class MainGUI extends javax.swing.JFrame {
             //deleteCollectionProductos(mongoClient);
             //updateCollectionProductos(mongoClient);
             listCollectionFarmacias(mongoClient,jl_farmacias);
-            listCollectionFarmaciasVenta(mongoClient);
+            listCollectionFarmacias(mongoClient, jl_compra);
 
             /*MongoIterable<String> string = mongoClient.listDatabaseNames();
             MongoCursor<String> cursor = string.cursor();
@@ -711,27 +710,7 @@ public class MainGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
-        String x = (String) jl_compra.getSelectedValue();
-        System.out.println(x);
-        int inicio, fin;
-        inicio = 0;
-        fin = 0;
-        for (int i = 0; i < x.length(); i++) {
-            if (x.charAt(i) == ':') {
-                inicio = i + 2;
-            }
-            if (i > 0 & x.charAt(i) == ',') {
-                fin = i;
-                i = x.length();
-            }
-        }
-        System.out.println(x.substring(inicio, fin));
-        Double p = Double.parseDouble(x.substring(inicio, fin));
-        System.out.println(p);
-
-        int id = (int) Math.round(p);
-        System.out.println(id);
-
+        idparse(jl_compra);
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton21ActionPerformed
 
@@ -874,6 +853,29 @@ public class MainGUI extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println("el error es aqui " + e.getMessage());
         }
+    }
+    
+    public int idparse(JList lista){
+        String x = (String) lista.getSelectedValue();
+        int inicio, fin;
+        inicio = 0;
+        fin = 0;
+        for (int i = 0; i < x.length(); i++) {
+            if (x.charAt(i) == ':') {
+                inicio = i + 2;
+            }
+            if (i > 0 & x.charAt(i) == ',') {
+                fin = i;
+                i = x.length();
+            }
+        }
+        System.out.println(x.substring(inicio, fin));
+        Double p = Double.parseDouble(x.substring(inicio, fin));
+        System.out.println(p);
+
+        int id = (int) Math.round(p);
+        System.out.println(id);
+        return id;
     }
 
 }
