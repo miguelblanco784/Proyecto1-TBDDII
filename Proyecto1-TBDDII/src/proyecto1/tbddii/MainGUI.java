@@ -45,7 +45,7 @@ public class MainGUI extends javax.swing.JFrame {
             //createCollectionProductos(mongoClient);
             //deleteCollectionProductos(mongoClient);
             //updateCollectionProductos(mongoClient);
-            listCollectionFarmacias(mongoClient,jl_farmacias);
+            listCollectionFarmacias(mongoClient, jl_farmacias);
             listCollectionFarmacias(mongoClient, jl_compra);
 
             /*MongoIterable<String> string = mongoClient.listDatabaseNames();
@@ -85,7 +85,7 @@ public class MainGUI extends javax.swing.JFrame {
             MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("productos");
             List<Document> farmaciaslista = farmacia.find().into(new ArrayList<>());
 
-            DefaultListModel modelo = (DefaultListModel)lista.getModel();
+            DefaultListModel modelo = (DefaultListModel) lista.getModel();
 
             for (Document document : farmaciaslista) {
                 modelo.addElement(document.toJson());
@@ -252,6 +252,11 @@ public class MainGUI extends javax.swing.JFrame {
         jButton8.setText("Modificar");
 
         jButton9.setText("Eliminar");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         jButton10.setText("Crear");
         jButton10.addActionListener(new java.awt.event.ActionListener() {
@@ -403,6 +408,11 @@ public class MainGUI extends javax.swing.JFrame {
         jButton11.setText("Modificar");
 
         jButton12.setText("Eliminar");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
 
         jButton13.setText("Crear");
         jButton13.addActionListener(new java.awt.event.ActionListener() {
@@ -452,6 +462,11 @@ public class MainGUI extends javax.swing.JFrame {
         jButton14.setText("Modificar");
 
         jButton15.setText("Eliminar");
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
+            }
+        });
 
         jButton16.setText("Crear");
         jButton16.addActionListener(new java.awt.event.ActionListener() {
@@ -499,6 +514,11 @@ public class MainGUI extends javax.swing.JFrame {
         jButton2.setText("Modificar");
 
         jButton3.setText("Eliminar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Crear");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -707,7 +727,7 @@ public class MainGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
-        
+
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
@@ -715,6 +735,13 @@ public class MainGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton19ActionPerformed
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
+        MongoClient mongoClient = MongoClients.create(
+                "mongodb+srv://Francisco:hola12345@cluster0.dxkw8.mongodb.net/SistemaFarmacias?retryWrites=true&w=majority");
+
+        int id = idparse(jl_almacenes);
+        System.out.println(id);
+        deleteCollectionAlmacenes(mongoClient, id);
+        listCollectionAlmacenes(mongoClient, jl_almacenes);
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton18ActionPerformed
 
@@ -740,7 +767,7 @@ public class MainGUI extends javax.swing.JFrame {
         int id = Integer.parseInt(x.substring(inicio, fin));
         System.out.println(id);
         deleteCollectionProductos(mongoClient, id);
-        listCollectionProductos(mongoClient,jl_productos);
+        listCollectionProductos(mongoClient, jl_productos);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
@@ -766,7 +793,7 @@ public class MainGUI extends javax.swing.JFrame {
                 listCollectionFarmacias(mongoClient, jl_farmacias);
                 break;
             case 1:
-                listCollectionProductos(mongoClient,jl_productos);
+                listCollectionProductos(mongoClient, jl_productos);
                 break;
             case 2:
                 listCollectionAlmacenes(mongoClient, jl_almacenes);
@@ -777,13 +804,57 @@ public class MainGUI extends javax.swing.JFrame {
             case 4:
                 listCollectionPropietarios(mongoClient, jl_propietarios);
                 break;
-            case 5: 
+            case 5:
                 listCollectionLaboratorios(mongoClient, jl_laboratorios);
                 break;
             default:
                 throw new AssertionError();
         }
     }//GEN-LAST:event_jTabbedPane1StateChanged
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        MongoClient mongoClient = MongoClients.create(
+                "mongodb+srv://Francisco:hola12345@cluster0.dxkw8.mongodb.net/SistemaFarmacias?retryWrites=true&w=majority");
+
+        int id = idparse(jl_laboratorios);
+        System.out.println(id);
+        deleteCollectionLaboratorios(mongoClient, id);
+        listCollectionLaboratorios(mongoClient, jl_laboratorios);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        MongoClient mongoClient = MongoClients.create(
+                "mongodb+srv://Francisco:hola12345@cluster0.dxkw8.mongodb.net/SistemaFarmacias?retryWrites=true&w=majority");
+
+        int id = idparse(jl_propietarios);
+        System.out.println(id);
+        deleteCollectionPropietarios(mongoClient, id);
+        listCollectionPropietarios(mongoClient, jl_propietarios);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton15ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        MongoClient mongoClient = MongoClients.create(
+                "mongodb+srv://Francisco:hola12345@cluster0.dxkw8.mongodb.net/SistemaFarmacias?retryWrites=true&w=majority");
+
+        int id = idparse(jl_farmaceuticos);
+        System.out.println(id);
+        deleteCollectionFarmaceuticos(mongoClient, id);
+        listCollectionFarmaceuticos(mongoClient, jl_farmaceuticos);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        MongoClient mongoClient = MongoClients.create(
+                "mongodb+srv://Francisco:hola12345@cluster0.dxkw8.mongodb.net/SistemaFarmacias?retryWrites=true&w=majority");
+
+        int id = idparse(jl_farmacias);
+        System.out.println(id);
+        deleteCollectionFarmacias(mongoClient, id);
+        listCollectionFarmacias(mongoClient, jl_productos);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton9ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -875,6 +946,7 @@ public class MainGUI extends javax.swing.JFrame {
     Logger mongoLogger;
     MongoClient mongoClient;
     MongoDatabase database;
+
     public void listCollectionFarmaciasVenta(MongoClient mongoClient) {
         try {
             MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("farmacias");
@@ -892,8 +964,8 @@ public class MainGUI extends javax.swing.JFrame {
             System.out.println("el error es aqui " + e.getMessage());
         }
     }
-    
-    public int idparse(JList lista){
+
+    public int idparse(JList lista) {
         String x = (String) lista.getSelectedValue();
         int inicio, fin;
         inicio = 0;
@@ -911,5 +983,41 @@ public class MainGUI extends javax.swing.JFrame {
         int id = (int) Math.round(p);
         return id;
     }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    public void deleteCollectionFarmacias(MongoClient mongoClient, int id) {
+        MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("farmacias");
+        Document doc = new Document("_id", id);
+        farmacia.deleteOne(doc);
+    }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void deleteCollectionAlmacenes(MongoClient mongoClient, int id) {
+        MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("almacenes");
+        Document doc = new Document("_id", id);
+        farmacia.deleteOne(doc);
+    }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void deleteCollectionFarmaceuticos(MongoClient mongoClient, int id) {
+        MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("farmaceuticos");
+        Document doc = new Document("_id", id);
+        farmacia.deleteOne(doc);
+    }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void deleteCollectionPropietarios(MongoClient mongoClient, int id) {
+        MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("propietarios");
+        Document doc = new Document("_id", id);
+        farmacia.deleteOne(doc);
+    }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void deleteCollectionLaboratorios(MongoClient mongoClient, int id) {
+        MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("laboratorios");
+        Document doc = new Document("_id", id);
+        farmacia.deleteOne(doc);
+    }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
