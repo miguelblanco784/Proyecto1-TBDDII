@@ -93,8 +93,8 @@ public class MainGUI extends javax.swing.JFrame {
             DefaultListModel modelo = (DefaultListModel) jl_productos.getModel();
 
             for (Document document : farmaciaslista) {
-                modelo.addElement(document.toJson());
-                System.out.println(document.toJson());
+                modelo.addElement(document);
+                System.out.println(document);
             }
 
             jl_productos.setModel(modelo);
@@ -111,8 +111,8 @@ public class MainGUI extends javax.swing.JFrame {
             DefaultListModel modelo = (DefaultListModel) jl_almacenes.getModel();
 
             for (Document document : farmaciaslista) {
-                modelo.addElement(document.toJson());
-                System.out.println(document.toJson());
+                modelo.addElement(document);
+                System.out.println(document);
             }
 
             jl_almacenes.setModel(modelo);
@@ -129,8 +129,8 @@ public class MainGUI extends javax.swing.JFrame {
             DefaultListModel modelo = (DefaultListModel) jl_farmaceuticos.getModel();
 
             for (Document document : farmaciaslista) {
-                modelo.addElement(document.toJson());
-                System.out.println(document.toJson());
+                modelo.addElement(document);
+                System.out.println(document);
             }
 
             jl_farmaceuticos.setModel(modelo);
@@ -147,8 +147,8 @@ public class MainGUI extends javax.swing.JFrame {
             DefaultListModel modelo = (DefaultListModel) jl_farmacias.getModel();
 
             for (Document document : farmaciaslista) {
-                modelo.addElement(document.toJson());
-                System.out.println(document.toJson());
+                modelo.addElement(document);
+                System.out.println(document);
             }
 
             jl_farmacias.setModel(modelo);
@@ -165,8 +165,8 @@ public class MainGUI extends javax.swing.JFrame {
             DefaultListModel modelo = (DefaultListModel) jl_laboratorios.getModel();
 
             for (Document document : farmaciaslista) {
-                modelo.addElement(document.toJson());
-                System.out.println(document.toJson());
+                modelo.addElement(document);
+                System.out.println(document);
             }
 
             jl_laboratorios.setModel(modelo);
@@ -183,8 +183,8 @@ public class MainGUI extends javax.swing.JFrame {
             DefaultListModel modelo = (DefaultListModel) jl_propietarios.getModel();
 
             for (Document document : farmaciaslista) {
-                modelo.addElement(document.toJson());
-                System.out.println(document.toJson());
+                modelo.addElement(document);
+                System.out.println(document);
             }
 
             jl_propietarios.setModel(modelo);
@@ -247,6 +247,11 @@ public class MainGUI extends javax.swing.JFrame {
         jButton17.setText("Modificar");
 
         jButton18.setText("Eliminar");
+        jButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton18ActionPerformed(evt);
+            }
+        });
 
         jButton19.setText("Crear");
         jButton19.addActionListener(new java.awt.event.ActionListener() {
@@ -484,6 +489,11 @@ public class MainGUI extends javax.swing.JFrame {
         jButton5.setText("Modificar");
 
         jButton6.setText("Eliminar");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton7.setText("Crear");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
@@ -607,6 +617,16 @@ public class MainGUI extends javax.swing.JFrame {
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton19ActionPerformed
+
+    private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton18ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+       //Jsonjl_productos.getSelectedIndex();
+        //deleteCollectionProductos(mongoClient);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
