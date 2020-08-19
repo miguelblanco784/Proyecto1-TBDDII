@@ -35,23 +35,18 @@ public class MainGUI extends javax.swing.JFrame {
 
         //Creacion Conexion
         try {
-            Logger mongoLogger = Logger.getLogger("org.mongodb.driver");
+            mongoLogger = Logger.getLogger("org.mongodb.driver");
             mongoLogger.setLevel(Level.SEVERE);
 
-            MongoClient mongoClient = MongoClients.create(
+            mongoClient = MongoClients.create(
                     "mongodb+srv://Francisco:hola12345@cluster0.dxkw8.mongodb.net/SistemaFarmacias?retryWrites=true&w=majority");
             //mongodb+srv://Francisco:hola12345@cluster0.dxkw8.mongodb.net/SistemaFarmacias?retryWrites=true&w=majority
-            MongoDatabase database = mongoClient.getDatabase("test");
+            database = mongoClient.getDatabase("test");
 
             //createCollectionProductos(mongoClient);
             //deleteCollectionProductos(mongoClient);
             //updateCollectionProductos(mongoClient);
-            listCollectionProductos(mongoClient);
-            listCollectionAlmacenes(mongoClient);
-            listCollectionFarmaceuticos(mongoClient);
-            listCollectionFarmacias(mongoClient);
-            listCollectionLaboratorios(mongoClient);
-            listCollectionPropietarios(mongoClient);
+            listCollectionFarmacias(mongoClient,jl_farmacias);
             listCollectionFarmaciasVenta(mongoClient);
 
             /*MongoIterable<String> string = mongoClient.listDatabaseNames();
@@ -86,110 +81,102 @@ public class MainGUI extends javax.swing.JFrame {
         farmacia.updateOne(doc, Updates.set("fabricante", "Minox"));
     }
 
-    public void listCollectionProductos(MongoClient mongoClient) {
+    public void listCollectionProductos(MongoClient mongoClient, JList lista) {
         try {
             MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("productos");
             List<Document> farmaciaslista = farmacia.find().into(new ArrayList<>());
 
-            DefaultListModel modelo = (DefaultListModel) jl_productos.getModel();
+            DefaultListModel modelo = (DefaultListModel)lista.getModel();
 
             for (Document document : farmaciaslista) {
                 modelo.addElement(document.toJson());
-                System.out.println(document.toJson());
             }
 
-            jl_productos.setModel(modelo);
+            lista.setModel(modelo);
         } catch (Exception e) {
             System.out.println("el error es aqui " + e.getMessage());
         }
     }
 
-    public void listCollectionAlmacenes(MongoClient mongoClient) {
+    public void listCollectionAlmacenes(MongoClient mongoClient, JList lista) {
         try {
             MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("almacenes");
             List<Document> farmaciaslista = farmacia.find().into(new ArrayList<>());
 
-            DefaultListModel modelo = (DefaultListModel) jl_almacenes.getModel();
+            DefaultListModel modelo = (DefaultListModel) lista.getModel();
 
             for (Document document : farmaciaslista) {
                 modelo.addElement(document.toJson());
-                System.out.println(document.toJson());
             }
 
-            jl_almacenes.setModel(modelo);
+            lista.setModel(modelo);
         } catch (Exception e) {
             System.out.println("el error es aqui " + e.getMessage());
         }
     }
 
-    public void listCollectionFarmaceuticos(MongoClient mongoClient) {
+    public void listCollectionFarmaceuticos(MongoClient mongoClient, JList lista) {
         try {
             MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("farmaceuticos");
             List<Document> farmaciaslista = farmacia.find().into(new ArrayList<>());
 
-            DefaultListModel modelo = (DefaultListModel) jl_farmaceuticos.getModel();
+            DefaultListModel modelo = (DefaultListModel) lista.getModel();
 
             for (Document document : farmaciaslista) {
                 modelo.addElement(document.toJson());
-                System.out.println(document.toJson());
             }
-
-            jl_farmaceuticos.setModel(modelo);
+            lista.setModel(modelo);
         } catch (Exception e) {
             System.out.println("el error es aqui " + e.getMessage());
         }
     }
 
-    public void listCollectionFarmacias(MongoClient mongoClient) {
+    public void listCollectionFarmacias(MongoClient mongoClient, JList lista) {
         try {
             MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("farmacias");
             List<Document> farmaciaslista = farmacia.find().into(new ArrayList<>());
 
-            DefaultListModel modelo = (DefaultListModel) jl_farmacias.getModel();
+            DefaultListModel modelo = (DefaultListModel) lista.getModel();
 
             for (Document document : farmaciaslista) {
                 modelo.addElement(document.toJson());
-                System.out.println("toJson");
-                System.out.println(document.toJson());
             }
 
-            jl_farmacias.setModel(modelo);
+            lista.setModel(modelo);
         } catch (Exception e) {
             System.out.println("el error es aqui " + e.getMessage());
         }
     }
 
-    public void listCollectionLaboratorios(MongoClient mongoClient) {
+    public void listCollectionLaboratorios(MongoClient mongoClient, JList lista) {
         try {
             MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("laboratorios");
             List<Document> farmaciaslista = farmacia.find().into(new ArrayList<>());
 
-            DefaultListModel modelo = (DefaultListModel) jl_laboratorios.getModel();
+            DefaultListModel modelo = (DefaultListModel) lista.getModel();
 
             for (Document document : farmaciaslista) {
                 modelo.addElement(document.toJson());
-                System.out.println(document.toJson());
             }
 
-            jl_laboratorios.setModel(modelo);
+            lista.setModel(modelo);
         } catch (Exception e) {
             System.out.println("el error es aqui " + e.getMessage());
         }
     }
 
-    public void listCollectionPropietarios(MongoClient mongoClient) {
+    public void listCollectionPropietarios(MongoClient mongoClient, JList lista) {
         try {
             MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("propietarios");
             List<Document> farmaciaslista = farmacia.find().into(new ArrayList<>());
 
-            DefaultListModel modelo = (DefaultListModel) jl_propietarios.getModel();
+            DefaultListModel modelo = (DefaultListModel) lista.getModel();
 
             for (Document document : farmaciaslista) {
                 modelo.addElement(document.toJson());
-                System.out.println(document.toJson());
             }
 
-            jl_propietarios.setModel(modelo);
+            lista.setModel(modelo);
         } catch (Exception e) {
             System.out.println("el error es aqui " + e.getMessage());
         }
@@ -206,6 +193,18 @@ public class MainGUI extends javax.swing.JFrame {
 
         CRUD = new javax.swing.JDialog();
         jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel4 = new javax.swing.JPanel();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        jl_farmacias = new javax.swing.JList<>();
+        jPanel5 = new javax.swing.JPanel();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jl_productos = new javax.swing.JList<>();
         jPanel1 = new javax.swing.JPanel();
         jButton17 = new javax.swing.JButton();
         jButton18 = new javax.swing.JButton();
@@ -218,30 +217,18 @@ public class MainGUI extends javax.swing.JFrame {
         jButton13 = new javax.swing.JButton();
         jScrollPane8 = new javax.swing.JScrollPane();
         jl_farmaceuticos = new javax.swing.JList<>();
-        jPanel4 = new javax.swing.JPanel();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jScrollPane9 = new javax.swing.JScrollPane();
-        jl_farmacias = new javax.swing.JList<>();
-        jPanel6 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jScrollPane10 = new javax.swing.JScrollPane();
-        jl_laboratorios = new javax.swing.JList<>();
         jPanel2 = new javax.swing.JPanel();
         jButton14 = new javax.swing.JButton();
         jButton15 = new javax.swing.JButton();
         jButton16 = new javax.swing.JButton();
         jScrollPane11 = new javax.swing.JScrollPane();
         jl_propietarios = new javax.swing.JList<>();
-        jPanel5 = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        jl_productos = new javax.swing.JList<>();
+        jPanel6 = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        jl_laboratorios = new javax.swing.JList<>();
         COMPRA = new javax.swing.JDialog();
         jScrollPane1 = new javax.swing.JScrollPane();
         jl_compra = new javax.swing.JList<>();
@@ -251,7 +238,110 @@ public class MainGUI extends javax.swing.JFrame {
         jButton20 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
-        CRUD.setPreferredSize(new java.awt.Dimension(1280, 820));
+        jTabbedPane1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jTabbedPane1StateChanged(evt);
+            }
+        });
+
+        jButton8.setText("Modificar");
+
+        jButton9.setText("Eliminar");
+
+        jButton10.setText("Crear");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        jl_farmacias.setModel(new DefaultListModel());
+        jScrollPane9.setViewportView(jl_farmacias);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(651, Short.MAX_VALUE))
+            .addComponent(jScrollPane9)
+        );
+
+        jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton10, jButton8, jButton9});
+
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton8)
+                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+
+        jPanel4Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton10, jButton8, jButton9});
+
+        jTabbedPane1.addTab("Farmacias", jPanel4);
+
+        jButton5.setText("Modificar");
+
+        jButton6.setText("Eliminar");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jButton7.setText("Crear");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        jl_productos.setModel(new DefaultListModel());
+        jScrollPane6.setViewportView(jl_productos);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(651, Short.MAX_VALUE))
+            .addComponent(jScrollPane6)
+        );
+
+        jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton5, jButton6, jButton7});
+
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 616, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5)
+                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+
+        jPanel5Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton5, jButton6, jButton7});
+
+        jTabbedPane1.addTab("Productos", jPanel5);
 
         jButton17.setText("Modificar");
 
@@ -352,100 +442,6 @@ public class MainGUI extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Farmaceuticos", jPanel3);
 
-        jButton8.setText("Modificar");
-
-        jButton9.setText("Eliminar");
-
-        jButton10.setText("Crear");
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
-            }
-        });
-
-        jl_farmacias.setModel(new DefaultListModel());
-        jScrollPane9.setViewportView(jl_farmacias);
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(651, Short.MAX_VALUE))
-            .addComponent(jScrollPane9)
-        );
-
-        jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton10, jButton8, jButton9});
-
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton8)
-                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
-        );
-
-        jPanel4Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton10, jButton8, jButton9});
-
-        jTabbedPane1.addTab("Farmacias", jPanel4);
-
-        jButton2.setText("Modificar");
-
-        jButton3.setText("Eliminar");
-
-        jButton4.setText("Crear");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-
-        jl_laboratorios.setModel(new DefaultListModel());
-        jScrollPane10.setViewportView(jl_laboratorios);
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(651, Short.MAX_VALUE))
-            .addComponent(jScrollPane10)
-        );
-
-        jPanel6Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton2, jButton3, jButton4});
-
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
-        );
-
-        jPanel6Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton2, jButton3, jButton4});
-
-        jTabbedPane1.addTab("Laboratorios", jPanel6);
-
         jPanel2.setFocusTraversalPolicyProvider(true);
 
         jButton14.setText("Modificar");
@@ -495,57 +491,52 @@ public class MainGUI extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Propietarios", jPanel2);
 
-        jButton5.setText("Modificar");
+        jButton2.setText("Modificar");
 
-        jButton6.setText("Eliminar");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        jButton3.setText("Eliminar");
+
+        jButton4.setText("Crear");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                jButton4ActionPerformed(evt);
             }
         });
 
-        jButton7.setText("Crear");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
+        jl_laboratorios.setModel(new DefaultListModel());
+        jScrollPane10.setViewportView(jl_laboratorios);
 
-        jl_productos.setModel(new DefaultListModel());
-        jScrollPane6.setViewportView(jl_productos);
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(651, Short.MAX_VALUE))
-            .addComponent(jScrollPane6)
+            .addComponent(jScrollPane10)
         );
 
-        jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton5, jButton6, jButton7});
+        jPanel6Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton2, jButton3, jButton4});
 
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 616, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        jPanel5Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton5, jButton6, jButton7});
+        jPanel6Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton2, jButton3, jButton4});
 
-        jTabbedPane1.addTab("Productos", jPanel5);
+        jTabbedPane1.addTab("Laboratorios", jPanel6);
 
         javax.swing.GroupLayout CRUDLayout = new javax.swing.GroupLayout(CRUD.getContentPane());
         CRUD.getContentPane().setLayout(CRUDLayout);
@@ -716,7 +707,7 @@ public class MainGUI extends javax.swing.JFrame {
         int id = Integer.parseInt(x.substring(inicio, fin));
         System.out.println(id);
         deleteCollectionProductos(mongoClient, id);
-        listCollectionProductos(mongoClient);
+        listCollectionProductos(mongoClient,jl_productos);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
@@ -755,6 +746,31 @@ public class MainGUI extends javax.swing.JFrame {
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton20ActionPerformed
+
+    private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
+        switch (jTabbedPane1.getSelectedIndex()) {
+            case 0:
+                listCollectionFarmacias(mongoClient, jl_farmacias);
+                break;
+            case 1:
+                listCollectionProductos(mongoClient,jl_productos);
+                break;
+            case 2:
+                listCollectionAlmacenes(mongoClient, jl_almacenes);
+                break;
+            case 3:
+                listCollectionFarmaceuticos(mongoClient, jl_farmaceuticos);
+                break;
+            case 4:
+                listCollectionPropietarios(mongoClient, jl_propietarios);
+                break;
+            case 5: 
+                listCollectionLaboratorios(mongoClient, jl_laboratorios);
+                break;
+            default:
+                throw new AssertionError();
+        }
+    }//GEN-LAST:event_jTabbedPane1StateChanged
 
     /**
      * @param args the command line arguments
@@ -839,7 +855,9 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JList<String> jl_productos;
     private javax.swing.JList<String> jl_propietarios;
     // End of variables declaration//GEN-END:variables
-
+    Logger mongoLogger;
+    MongoClient mongoClient;
+    MongoDatabase database;
     public void listCollectionFarmaciasVenta(MongoClient mongoClient) {
         try {
             MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("farmacias");
