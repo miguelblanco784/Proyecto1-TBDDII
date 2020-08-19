@@ -93,7 +93,7 @@ public class MainGUI extends javax.swing.JFrame {
             DefaultListModel modelo = (DefaultListModel) jl_productos.getModel();
 
             for (Document document : farmaciaslista) {
-                modelo.addElement(document.toString());
+                modelo.addElement(document.toJson());
                 System.out.println(document.toJson());
             }
 
@@ -111,7 +111,7 @@ public class MainGUI extends javax.swing.JFrame {
             DefaultListModel modelo = (DefaultListModel) jl_almacenes.getModel();
 
             for (Document document : farmaciaslista) {
-                modelo.addElement(document.toString());
+                modelo.addElement(document.toJson());
                 System.out.println(document.toJson());
             }
 
@@ -129,7 +129,7 @@ public class MainGUI extends javax.swing.JFrame {
             DefaultListModel modelo = (DefaultListModel) jl_farmaceuticos.getModel();
 
             for (Document document : farmaciaslista) {
-                modelo.addElement(document.toString());
+                modelo.addElement(document.toJson());
                 System.out.println(document.toJson());
             }
 
@@ -147,7 +147,7 @@ public class MainGUI extends javax.swing.JFrame {
             DefaultListModel modelo = (DefaultListModel) jl_farmacias.getModel();
 
             for (Document document : farmaciaslista) {
-                modelo.addElement(document.toString());
+                modelo.addElement(document.toJson());
                 System.out.println(document.toJson());
             }
 
@@ -165,7 +165,7 @@ public class MainGUI extends javax.swing.JFrame {
             DefaultListModel modelo = (DefaultListModel) jl_laboratorios.getModel();
 
             for (Document document : farmaciaslista) {
-                modelo.addElement(document.toString());
+                modelo.addElement(document.toJson());
                 System.out.println(document.toJson());
             }
 
@@ -183,7 +183,7 @@ public class MainGUI extends javax.swing.JFrame {
             DefaultListModel modelo = (DefaultListModel) jl_propietarios.getModel();
 
             for (Document document : farmaciaslista) {
-                modelo.addElement(document.toString());
+                modelo.addElement(document.toJson());
                 System.out.println(document.toJson());
             }
 
