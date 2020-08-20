@@ -5,6 +5,7 @@
  */
 package proyecto1.tbddii;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -20,6 +21,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import org.bson.BsonRegularExpression;
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -46,9 +48,9 @@ public class MainGUI extends javax.swing.JFrame {
             //createCollectionProductos(mongoClient);
             //deleteCollectionProductos(mongoClient);
             //updateCollectionProductos(mongoClient);
-            listCollectionFarmacias(mongoClient, jl_farmacias);
-            listCollectionFarmacias(mongoClient, jl_compra);
-            
+            MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("propietarios");
+            List<Document> farmaciaslista = farmacia.find().into(new ArrayList<>());
+            listCollectionFarmacias(mongoClient, jl_farmacias);           
             /*MongoIterable<String> string = mongoClient.listDatabaseNames();
             MongoCursor<String> cursor = string.cursor();
             while (cursor.hasNext()) {
@@ -61,14 +63,22 @@ public class MainGUI extends javax.swing.JFrame {
         //Fin de la Conexion
 
     }
+    
+    public void createCollectionPropietario(int id, String nombre,int edad,String direccion,int idfarmacia){
+        MongoCollection<Document> propietario = mongoClient.getDatabase("SistemaFarmacias").getCollection("propietarios");
+        Document doc= new Document("_id",id).append("nombre",nombre).append("edad",edad).append("direccion",direccion);
+        propietario.insertOne(doc);
+        propietario = mongoClient.getDatabase("SistemaFarmacias").getCollection("farmacias");
 
-    public void createCollectionProductos(MongoClient mongoClient) {
+    }
+    
+    public void createCollectionProductos() {
         //MongoColletion<Document> farmacia = mongoClient.getDatabase(databaseName:"SistemaFarmacias").getCollection(collectionName:"");
         MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("productos");
         Document doc = new Document("_id", 6).append("nombre", "Amlodipino").append("fabricante", "Fabs").append("tipo", "Antihipertensores").append("finprincipal", "Relajar la hipertensión").append("isProtegido", false);
         farmacia.insertOne(doc);
     }
-
+ 
     public void deleteCollectionProductos(MongoClient mongoClient, int id) {
         MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("productos");
         Document doc = new Document("_id", id);
@@ -86,12 +96,13 @@ public class MainGUI extends javax.swing.JFrame {
             MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("productos");
             List<Document> farmaciaslista = farmacia.find().into(new ArrayList<>());
 
-            DefaultListModel modelo = (DefaultListModel) lista.getModel();
-
+            DefaultListModel modelo = new DefaultListModel();
+            int i=0;
             for (Document document : farmaciaslista) {
                 modelo.addElement(document.toJson());
+                i++;
             }
-
+            lista.setVisibleRowCount(i);
             lista.setModel(modelo);
         } catch (Exception e) {
             System.out.println("el error es aqui " + e.getMessage());
@@ -103,12 +114,13 @@ public class MainGUI extends javax.swing.JFrame {
             MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("almacenes");
             List<Document> farmaciaslista = farmacia.find().into(new ArrayList<>());
 
-            DefaultListModel modelo = (DefaultListModel) lista.getModel();
-
+            DefaultListModel modelo = new DefaultListModel();
+            int i=0;
             for (Document document : farmaciaslista) {
                 modelo.addElement(document.toJson());
+                i++;
             }
-
+            lista.setVisibleRowCount(i);
             lista.setModel(modelo);
         } catch (Exception e) {
             System.out.println("el error es aqui " + e.getMessage());
@@ -120,11 +132,13 @@ public class MainGUI extends javax.swing.JFrame {
             MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("farmaceuticos");
             List<Document> farmaciaslista = farmacia.find().into(new ArrayList<>());
 
-            DefaultListModel modelo = (DefaultListModel) lista.getModel();
-
+            DefaultListModel modelo = new DefaultListModel();
+            int i=0;
             for (Document document : farmaciaslista) {
                 modelo.addElement(document.toJson());
+                i++;
             }
+            lista.setVisibleRowCount(i);
             lista.setModel(modelo);
         } catch (Exception e) {
             System.out.println("el error es aqui " + e.getMessage());
@@ -136,12 +150,13 @@ public class MainGUI extends javax.swing.JFrame {
             MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("farmacias");
             List<Document> farmaciaslista = farmacia.find().into(new ArrayList<>());
 
-            DefaultListModel modelo = (DefaultListModel) lista.getModel();
-
+            DefaultListModel modelo = new DefaultListModel();
+            int i=0;
             for (Document document : farmaciaslista) {
                 modelo.addElement(document.toJson());
+                i++;
             }
-
+            lista.setVisibleRowCount(i);
             lista.setModel(modelo);
         } catch (Exception e) {
             System.out.println("el error es aqui " + e.getMessage());
@@ -153,12 +168,13 @@ public class MainGUI extends javax.swing.JFrame {
             MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("laboratorios");
             List<Document> farmaciaslista = farmacia.find().into(new ArrayList<>());
 
-            DefaultListModel modelo = (DefaultListModel) lista.getModel();
-
+            DefaultListModel modelo = new DefaultListModel();
+            int i=0;
             for (Document document : farmaciaslista) {
                 modelo.addElement(document.toJson());
+                i++;
             }
-
+            lista.setVisibleRowCount(i);
             lista.setModel(modelo);
         } catch (Exception e) {
             System.out.println("el error es aqui " + e.getMessage());
@@ -169,13 +185,14 @@ public class MainGUI extends javax.swing.JFrame {
         try {
             MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("propietarios");
             List<Document> farmaciaslista = farmacia.find().into(new ArrayList<>());
-
-            DefaultListModel modelo = (DefaultListModel) lista.getModel();
-
+            
+            DefaultListModel modelo = new DefaultListModel();
+            int i=0;
             for (Document document : farmaciaslista) {
                 modelo.addElement(document.toJson());
+                i++;
             }
-
+            lista.setVisibleRowCount(i);
             lista.setModel(modelo);
         } catch (Exception e) {
             System.out.println("el error es aqui " + e.getMessage());
@@ -250,8 +267,6 @@ public class MainGUI extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton20 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-
-        CRUD.setPreferredSize(new java.awt.Dimension(1280, 820));
 
         jTabbedPane1.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -656,28 +671,34 @@ public class MainGUI extends javax.swing.JFrame {
         jDialog1.getContentPane().setLayout(jDialog1Layout);
         jDialog1Layout.setHorizontalGroup(
             jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialog1Layout.createSequentialGroup()
-                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialog1Layout.createSequentialGroup()
+                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jDialog1Layout.createSequentialGroup()
                         .addContainerGap()
+                        .addComponent(jScrollPane12))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jDialog1Layout.createSequentialGroup()
                         .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3)
-                            .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jButton22)
-                                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jDialog1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel3)))
+                            .addGroup(jDialog1Layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel7))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(edad_propietario, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(nombre_propietario)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE))))
+                        .addGap(0, 153, Short.MAX_VALUE))
                     .addGroup(jDialog1Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(edad_propietario, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nombre_propietario)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE))))
-                .addContainerGap(44, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton22)))
+                .addContainerGap())
         );
         jDialog1Layout.setVerticalGroup(
             jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -698,15 +719,15 @@ public class MainGUI extends javax.swing.JFrame {
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jDialog1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)))
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
+                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
                 .addComponent(jButton22)
-                .addGap(40, 40, 40))
+                .addGap(23, 23, 23))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -932,13 +953,16 @@ public class MainGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
-        String nombre= nombre_propietario.getText();
-        int edad= Integer.parseInt(edad_propietario.getText());
-        String direccion= direccion_propietario.getText();
-        int idfarmacia=idparse(jl_farmacias1);
-        MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("propietarios");
-        List<Document> farmaciaslista = farmacia.find().into(new ArrayList<>());
-        farmacia.find().sort(Filters.all("_id", -1));
+        if (!nombre_propietario.getText().equals("")&&!edad_propietario.getText().equals("")&&!direccion_propietario.getText().equals("")) {
+            String nombre= nombre_propietario.getText();
+            int edad= Integer.parseInt(edad_propietario.getText());
+            String direccion= direccion_propietario.getText();
+            int id=idNextValue(jl_propietarios);
+            int idfarmacia=idparse(jl_farmacias1);
+            createCollectionPropietario(id, nombre, edad, direccion,idfarmacia);
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Llene todos los espacios del formulario");
+        }
     }//GEN-LAST:event_jButton22ActionPerformed
 
     /**
@@ -1040,25 +1064,6 @@ public class MainGUI extends javax.swing.JFrame {
     Logger mongoLogger;
     MongoClient mongoClient;
     MongoDatabase database;
-
-    public void listCollectionFarmaciasVenta(MongoClient mongoClient) {
-        try {
-            MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("farmacias");
-            List<Document> farmaciaslista = farmacia.find().into(new ArrayList<>());
-
-            DefaultListModel modelo = (DefaultListModel) jl_compra.getModel();
-
-            for (Document document : farmaciaslista) {
-                modelo.addElement(document.toJson());
-                System.out.println(document.toJson());
-            }
-
-            jl_compra.setModel(modelo);
-        } catch (Exception e) {
-            System.out.println("el error es aqui " + e.getMessage());
-        }
-    }
-
     public int idparse(JList lista) {
         String x = (String) lista.getSelectedValue();
         int inicio, fin;
@@ -1075,6 +1080,32 @@ public class MainGUI extends javax.swing.JFrame {
         }
         Double p = Double.parseDouble(x.substring(inicio, fin));
         int id = (int) Math.round(p);
+        return id;
+    }
+    
+    public int idNextValue(JList lista){
+        int id=0;
+        for (int i = 0; i < lista.getModel().getSize(); i++) {
+            String x = (String) lista.getModel().getElementAt(i);
+            int inicio, fin;
+            inicio = 0;
+            fin = 0;
+            for (int j = 0; j < x.length(); j++) {
+                if (x.charAt(j) == ':') {
+                    inicio = j + 2;
+                }
+                if (j > 0 & x.charAt(j) == ',') {
+                    fin = j;
+                    j = x.length();
+                }
+            }
+            Double p = Double.parseDouble(x.substring(inicio, fin));
+            int id2=(int) Math.round(p);
+            if (id<id2) {
+                id=id2;
+            }
+        }
+        id++;
         return id;
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
