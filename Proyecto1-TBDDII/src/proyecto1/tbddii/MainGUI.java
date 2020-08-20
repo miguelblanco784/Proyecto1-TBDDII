@@ -42,6 +42,7 @@ public class MainGUI extends javax.swing.JFrame {
 
         //Creacion Conexion
         try {
+
             mongoLogger = Logger.getLogger("org.mongodb.driver");
             mongoLogger.setLevel(Level.SEVERE);
             mongoClient = MongoClients.create(
@@ -52,6 +53,7 @@ public class MainGUI extends javax.swing.JFrame {
             //updateCollectionProductos(mongoClient);
             MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("propietarios");
             List<Document> farmaciaslista = farmacia.find().into(new ArrayList<>());
+            listCollectionFarmacias(mongoClient, jl_compra);
             listCollectionFarmacias(mongoClient, jl_farmacias);
             listCollectionProductos(mongoClient, jl_productos);
             listCollectionAlmacenes(mongoClient, jl_almacenes);
@@ -70,50 +72,50 @@ public class MainGUI extends javax.swing.JFrame {
         //Fin de la Conexion
 
     }
-    
-    public void createCollectionFarmacia(int id, String direccion){
+
+    public void createCollectionFarmacia(int id, String direccion) {
         MongoCollection<Document> farmacias = mongoClient.getDatabase("SistemaFarmacias").getCollection("farmacias");
-        Document doc= new Document("_id",id).append("direccion",direccion).append("idalmacen", idalmacen);
-        
+        Document doc = new Document("_id", id).append("direccion", direccion).append("idalmacen", idalmacen);
+
         farmacias.insertOne(doc);
     }
-    
-    public void createCollectionAlmacen(int id){
+
+    public void createCollectionAlmacen(int id) {
         MongoCollection<Document> farmacias = mongoClient.getDatabase("SistemaFarmacias").getCollection("almacenes");
-        Document doc= new Document("_id",id);
+        Document doc = new Document("_id", id);
         farmacias.insertOne(doc);
     }
-    
-    public void createCollectionFarmaceutico(int id, String nombre,  int edad, boolean isResponsable,int idfarmacia){
-        Date now= new Date();
+
+    public void createCollectionFarmaceutico(int id, String nombre, int edad, boolean isResponsable, int idfarmacia) {
+        Date now = new Date();
         MongoCollection<Document> farmaceutico = mongoClient.getDatabase("SistemaFarmacias").getCollection("farmaceuticos");
-        Document doc= new Document("_id",id).append("nombre",nombre).append("edad",edad).append("fechaingreso",now.toString()).append("isresponsable",isResponsable);
+        Document doc = new Document("_id", id).append("nombre", nombre).append("edad", edad).append("fechaingreso", now.toString()).append("isresponsable", isResponsable);
         farmaceutico.insertOne(doc);
         farmaceutico = mongoClient.getDatabase("SistemaFarmacias").getCollection("farmacias");
-        farmaceutico.updateOne(eq("_id",idfarmacia),Updates.addToSet("Farmaceuticos", id));
+        farmaceutico.updateOne(eq("_id", idfarmacia), Updates.addToSet("Farmaceuticos", id));
     }
-    
-    public void createCollectionProducto(int id, String nombre, String fabricante, String tipo, String finprincipal, boolean isprotegido){
+
+    public void createCollectionProducto(int id, String nombre, String fabricante, String tipo, String finprincipal, boolean isprotegido) {
         MongoCollection<Document> productos = mongoClient.getDatabase("SistemaFarmacias").getCollection("productos");
-        Document doc= new Document("_id",id).append("nombre",nombre).append("fabricante", fabricante).append("tipo", tipo).append("finprincipal", finprincipal).append("isProtegido", isprotegido);
+        Document doc = new Document("_id", id).append("nombre", nombre).append("fabricante", fabricante).append("tipo", tipo).append("finprincipal", finprincipal).append("isProtegido", isprotegido);
         productos.insertOne(doc);
     }
-    
-    public void createCollectionPropietario(int id, String nombre,int edad,String direccion,int idfarmacia){
+
+    public void createCollectionPropietario(int id, String nombre, int edad, String direccion, int idfarmacia) {
         MongoCollection<Document> propietario = mongoClient.getDatabase("SistemaFarmacias").getCollection("propietarios");
-        Document doc= new Document("_id",id).append("nombre",nombre).append("edad",edad).append("direccion",direccion);
+        Document doc = new Document("_id", id).append("nombre", nombre).append("edad", edad).append("direccion", direccion);
         propietario.insertOne(doc);
         propietario = mongoClient.getDatabase("SistemaFarmacias").getCollection("farmacias");
-        propietario.updateOne(eq("_id",idfarmacia),Updates.addToSet("Propietarios", id));
+        propietario.updateOne(eq("_id", idfarmacia), Updates.addToSet("Propietarios", id));
     }
-    
+
     public void createCollectionProductos() {
         //MongoColletion<Document> farmacia = mongoClient.getDatabase(databaseName:"SistemaFarmacias").getCollection(collectionName:"");
         MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("productos");
         Document doc = new Document("_id", 6).append("nombre", "Amlodipino").append("fabricante", "Fabs").append("tipo", "Antihipertensores").append("finprincipal", "Relajar la hipertensión").append("isProtegido", false);
         farmacia.insertOne(doc);
     }
- 
+
     public void deleteCollectionProductos(MongoClient mongoClient, int id) {
         MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("productos");
         Document doc = new Document("_id", id);
@@ -132,7 +134,7 @@ public class MainGUI extends javax.swing.JFrame {
             List<Document> farmaciaslista = farmacia.find().into(new ArrayList<>());
 
             DefaultListModel modelo = new DefaultListModel();
-            int i=0;
+            int i = 0;
             for (Document document : farmaciaslista) {
                 modelo.addElement(document.toJson());
                 i++;
@@ -150,7 +152,7 @@ public class MainGUI extends javax.swing.JFrame {
             List<Document> farmaciaslista = farmacia.find().into(new ArrayList<>());
 
             DefaultListModel modelo = new DefaultListModel();
-            int i=0;
+            int i = 0;
             for (Document document : farmaciaslista) {
                 modelo.addElement(document.toJson());
                 i++;
@@ -168,7 +170,7 @@ public class MainGUI extends javax.swing.JFrame {
             List<Document> farmaciaslista = farmacia.find().into(new ArrayList<>());
 
             DefaultListModel modelo = new DefaultListModel();
-            int i=0;
+            int i = 0;
             for (Document document : farmaciaslista) {
                 modelo.addElement(document.toJson());
                 i++;
@@ -186,7 +188,7 @@ public class MainGUI extends javax.swing.JFrame {
             List<Document> farmaciaslista = farmacia.find().into(new ArrayList<>());
 
             DefaultListModel modelo = new DefaultListModel();
-            int i=0;
+            int i = 0;
             for (Document document : farmaciaslista) {
                 modelo.addElement(document.toJson());
                 i++;
@@ -204,7 +206,7 @@ public class MainGUI extends javax.swing.JFrame {
             List<Document> farmaciaslista = farmacia.find().into(new ArrayList<>());
 
             DefaultListModel modelo = new DefaultListModel();
-            int i=0;
+            int i = 0;
             for (Document document : farmaciaslista) {
                 modelo.addElement(document.toJson());
                 i++;
@@ -220,9 +222,9 @@ public class MainGUI extends javax.swing.JFrame {
         try {
             MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("propietarios");
             List<Document> farmaciaslista = farmacia.find().into(new ArrayList<>());
-            
+
             DefaultListModel modelo = new DefaultListModel();
-            int i=0;
+            int i = 0;
             for (Document document : farmaciaslista) {
                 modelo.addElement(document.toJson());
                 i++;
@@ -283,6 +285,14 @@ public class MainGUI extends javax.swing.JFrame {
         jl_compra = new javax.swing.JList<>();
         jLabel2 = new javax.swing.JLabel();
         jButton21 = new javax.swing.JButton();
+        COMPRA_ALMACENES = new javax.swing.JDialog();
+        jLabel29 = new javax.swing.JLabel();
+        jScrollPane14 = new javax.swing.JScrollPane();
+        jl_almacencompra = new javax.swing.JList<>();
+        jScrollPane15 = new javax.swing.JScrollPane();
+        jl_medicamentosalmacen = new javax.swing.JList<>();
+        jButton25 = new javax.swing.JButton();
+        jButton26 = new javax.swing.JButton();
         AgregarPropietario = new javax.swing.JDialog();
         jScrollPane12 = new javax.swing.JScrollPane();
         jl_farmacias1 = new javax.swing.JList<>();
@@ -693,6 +703,64 @@ public class MainGUI extends javax.swing.JFrame {
                 .addComponent(jButton21, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+
+        jLabel29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyecto1/images/fabrica.png"))); // NOI18N
+
+        jl_almacencompra.setModel(new DefaultListModel());
+        jScrollPane14.setViewportView(jl_almacencompra);
+
+        jl_medicamentosalmacen.setModel(new DefaultListModel());
+        jScrollPane15.setViewportView(jl_medicamentosalmacen);
+
+        jButton25.setText("Comprar");
+        jButton25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton25ActionPerformed(evt);
+            }
+        });
+
+        jButton26.setText("Agregar Producto");
+        jButton26.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton26ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout COMPRA_ALMACENESLayout = new javax.swing.GroupLayout(COMPRA_ALMACENES.getContentPane());
+        COMPRA_ALMACENES.getContentPane().setLayout(COMPRA_ALMACENESLayout);
+        COMPRA_ALMACENESLayout.setHorizontalGroup(
+            COMPRA_ALMACENESLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, COMPRA_ALMACENESLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel29))
+            .addComponent(jScrollPane14)
+            .addComponent(jScrollPane15)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, COMPRA_ALMACENESLayout.createSequentialGroup()
+                .addContainerGap(332, Short.MAX_VALUE)
+                .addComponent(jButton26, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton25, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        COMPRA_ALMACENESLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton25, jButton26});
+
+        COMPRA_ALMACENESLayout.setVerticalGroup(
+            COMPRA_ALMACENESLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(COMPRA_ALMACENESLayout.createSequentialGroup()
+                .addComponent(jLabel29)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(COMPRA_ALMACENESLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton25)
+                    .addComponent(jButton26, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        COMPRA_ALMACENESLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton25, jButton26});
 
         jl_farmacias1.setModel(new DefaultListModel());
         jScrollPane12.setViewportView(jl_farmacias1);
@@ -1325,7 +1393,88 @@ public class MainGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
-        idparse(jl_compra);
+        System.out.println(idparse(jl_compra));
+        int idfarmacia = idparse(jl_compra);
+
+        MongoCollection<Document> farmacia = mongoClient.getDatabase("SistemaFarmacias").getCollection("almacenes");
+        List<Document> almacenseleccionado = farmacia.find(Filters.lte("_id", idfarmacia)).into(new ArrayList<>());
+        ArrayList<String> almacen = new ArrayList();
+        try {
+
+            DefaultListModel modelo = new DefaultListModel();
+            int i = 0;
+            for (Document document : almacenseleccionado) {
+                almacen.add(document.toJson());
+                modelo.addElement(document.toJson());
+                break;
+            }
+            jl_almacencompra.setVisibleRowCount(i);
+            jl_almacencompra.setModel(modelo);
+
+        } catch (Exception e) {
+            System.out.println("el error es aqui " + e.getMessage());
+        }
+
+        ArrayList<String> medicinas = new ArrayList();
+        String farmacias = almacen.get(0);
+        boolean nuevo = false;
+        int nommedicamento = 0;
+        for (int i = 1; i < farmacias.length(); i++) {
+            if (farmacias.charAt(i) == '{') {
+                nuevo = true;
+                i++;
+            } else if (farmacias.charAt(i) == '}') {
+                nuevo = false;
+                nommedicamento++;
+            }
+
+            if (nuevo) {
+                try {
+                    medicinas.get(nommedicamento);
+                } catch (Exception e) {
+                    medicinas.add("");
+                } finally {
+                    String temp = medicinas.get(nommedicamento) + farmacias.charAt(i);
+                    medicinas.set(nommedicamento, temp);
+                }
+            }
+        }
+
+        try {
+            MongoCollection<Document> productos = mongoClient.getDatabase("SistemaFarmacias").getCollection("productos");
+            List<Document> productoslista = productos.find().into(new ArrayList<>());
+            DefaultListModel modelo = new DefaultListModel();
+
+            ArrayList<String> listadeproductos = new ArrayList();
+
+            for (String medicina : medicinas) {
+                listadeproductos.add(medicina);
+                //modelo.addElement(medicina+"");
+            }
+            for (int i = 0; i < listadeproductos.size(); i++) {
+                for (Document document : productoslista) {
+                    listadeproductos.set(i, listadeproductos.get(i) + " || " + document.toJson());
+                    i++;
+                }
+            }
+
+            for (String listadeproducto : listadeproductos) {
+                modelo.addElement(listadeproducto);
+            }
+            jl_medicamentosalmacen.setVisibleRowCount(0);
+            jl_medicamentosalmacen.setModel(modelo);
+        } catch (Exception e) {
+        }
+
+        COMPRA.dispose();
+
+        COMPRA_ALMACENES.setSize(WIDTH, HEIGHT);
+        COMPRA_ALMACENES.setModal(true);
+
+        COMPRA_ALMACENES.pack();
+        COMPRA_ALMACENES.setLocationRelativeTo(this);
+        COMPRA_ALMACENES.setVisible(true);
+
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton21ActionPerformed
 
@@ -1411,46 +1560,46 @@ public class MainGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
-        if (!nombre_propietario.getText().equals("")&&!edad_propietario.getText().equals("")&&!direccion_propietario.getText().equals("") && jl_farmacias1.getSelectedIndex()!=-1) {
-            String nombre= nombre_propietario.getText();
-            int edad= Integer.parseInt(edad_propietario.getText());
-            String direccion= direccion_propietario.getText();
-            int id=idNextValue(jl_propietarios);
-            int idfarmacia=idparse(jl_farmacias1);
-            createCollectionPropietario(id, nombre, edad, direccion,idfarmacia);
+        if (!nombre_propietario.getText().equals("") && !edad_propietario.getText().equals("") && !direccion_propietario.getText().equals("") && jl_farmacias1.getSelectedIndex() != -1) {
+            String nombre = nombre_propietario.getText();
+            int edad = Integer.parseInt(edad_propietario.getText());
+            String direccion = direccion_propietario.getText();
+            int id = idNextValue(jl_propietarios);
+            int idfarmacia = idparse(jl_farmacias1);
+            createCollectionPropietario(id, nombre, edad, direccion, idfarmacia);
             JOptionPane.showMessageDialog(rootPane, "Se creo propietario exitosamente");
             AgregarPropietario.dispose();
             listCollectionPropietarios(mongoClient, jl_propietarios);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(rootPane, "Llene todos los espacios del formulario");
         }
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
-        if (!nombre_farmaceutico.getText().equals("")&&!edad_farmaceutico.getText().equals("")&&(radioNo.isSelected()==true || radioSi.isSelected()==true)&& jl_farmacias2.getSelectedIndex()!=-1) {
-            String nombre= nombre_farmaceutico.getText();
-            int edad= Integer.parseInt(edad_farmaceutico.getText());
+        if (!nombre_farmaceutico.getText().equals("") && !edad_farmaceutico.getText().equals("") && (radioNo.isSelected() == true || radioSi.isSelected() == true) && jl_farmacias2.getSelectedIndex() != -1) {
+            String nombre = nombre_farmaceutico.getText();
+            int edad = Integer.parseInt(edad_farmaceutico.getText());
             boolean isresponsable;
             if (radioNo.isSelected()) {
-                isresponsable=false;
-            }else{
-                isresponsable=true;
+                isresponsable = false;
+            } else {
+                isresponsable = true;
             }
-            int id= idNextValue(jl_farmaceuticos);
+            int id = idNextValue(jl_farmaceuticos);
             int idfarmacia = idparse(jl_farmacias2);
             createCollectionFarmaceutico(id, nombre, edad, isresponsable, idfarmacia);
             JOptionPane.showMessageDialog(rootPane, "Se creo farmaceutico exitosamente");
             AgregarFarmaceutico.dispose();
             listCollectionFarmaceuticos(mongoClient, jl_farmaceuticos);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(rootPane, "Llene todos los espacios del formulario");
         }
     }//GEN-LAST:event_jButton23ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
         if (!direccionfarmacia.getText().equals("")) {
-            idfarmacia= idNextValue(jl_farmacias);
-            idalmacen= idNextValue(jl_almacenes);
+            idfarmacia = idNextValue(jl_farmacias);
+            idalmacen = idNextValue(jl_almacenes);
             createCollectionAlmacen(idalmacen);
             String direccion = direccionfarmacia.getText();
             createCollectionFarmacia(idfarmacia, direccion);
@@ -1460,18 +1609,18 @@ public class MainGUI extends javax.swing.JFrame {
             AgregarFarmacia2.pack();
             AgregarFarmacia2.setLocationRelativeTo(this);
             AgregarFarmacia2.setVisible(true);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(rootPane, "Llene todos los espacios del formulario");
         }
-        
+
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
-        if (!nombrepropietario.getText().equals("")&& !edad_propietario1.getText().equals("") && !direccion_propietario1.getText().equals("")) {
-            int id=idNextValue(jl_propietarios);
-            String nombre=nombrepropietario.getText();
-            int edad= Integer.parseInt(edad_propietario1.getText());
-            String direccion= direccion_propietario1.getText();
+        if (!nombrepropietario.getText().equals("") && !edad_propietario1.getText().equals("") && !direccion_propietario1.getText().equals("")) {
+            int id = idNextValue(jl_propietarios);
+            String nombre = nombrepropietario.getText();
+            int edad = Integer.parseInt(edad_propietario1.getText());
+            String direccion = direccion_propietario1.getText();
             createCollectionPropietario(id, nombre, edad, direccion, idfarmacia);
             JOptionPane.showMessageDialog(rootPane, "Propietario creado exitosamente");
             AgregarFarmacia2.dispose();
@@ -1479,53 +1628,63 @@ public class MainGUI extends javax.swing.JFrame {
             AgregarFarmacia3.pack();
             AgregarFarmacia3.setLocationRelativeTo(this);
             AgregarFarmacia3.setVisible(true);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(rootPane, "Llene todos los espacios del formulario");
         }
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
-        if (!nombre_farmaceutico1.getText().equals("") && !edad_farmaceutico1.getText().equals("") && (radioNo1.isSelected()==true || radioSi1.isSelected()==true)) {
-            String nombre= nombre_farmaceutico1.getText();
-            int id=idNextValue(jl_farmaceuticos);
-            int edad= Integer.parseInt(edad_farmaceutico1.getText());
+        if (!nombre_farmaceutico1.getText().equals("") && !edad_farmaceutico1.getText().equals("") && (radioNo1.isSelected() == true || radioSi1.isSelected() == true)) {
+            String nombre = nombre_farmaceutico1.getText();
+            int id = idNextValue(jl_farmaceuticos);
+            int edad = Integer.parseInt(edad_farmaceutico1.getText());
             boolean isresponsable;
             if (radioNo1.isSelected()) {
-                isresponsable=false;
-            }else{
-                isresponsable=true;
+                isresponsable = false;
+            } else {
+                isresponsable = true;
             }
             createCollectionFarmaceutico(id, nombre, edad, isresponsable, idfarmacia);
             JOptionPane.showMessageDialog(rootPane, "Termino el proceso de creacion de una farmacia");
             AgregarFarmacia3.dispose();
             listCollectionFarmacias(mongoClient, jl_farmacias);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(rootPane, "Llene todos los espacios del formulario");
         }
     }//GEN-LAST:event_jButton19ActionPerformed
 
     private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
-        if (!nombreproducto.getText().equals("") && !fabricanteproducto.getText().equals("") && !tipoproducto.getText().equals("") && !finproducto.getText().equals("") && (radioNo2.isSelected()==true || radioSi2.isSelected()==true)) {
-            int id=idNextValue(jl_productos);
+        if (!nombreproducto.getText().equals("") && !fabricanteproducto.getText().equals("") && !tipoproducto.getText().equals("") && !finproducto.getText().equals("") && (radioNo2.isSelected() == true || radioSi2.isSelected() == true)) {
+            int id = idNextValue(jl_productos);
             String nombre = nombreproducto.getText();
             String fabricante = fabricanteproducto.getText();
             String tipo = tipoproducto.getText();
             String fin = finproducto.getText();
             boolean isprotegido;
             if (radioNo2.isSelected()) {
-                isprotegido=false;
-            }else{
-                isprotegido=false;
+                isprotegido = false;
+            } else {
+                isprotegido = false;
             }
-            createCollectionProducto(id, nombre, fabricante, tipo, fin,isprotegido);
+            createCollectionProducto(id, nombre, fabricante, tipo, fin, isprotegido);
             JOptionPane.showMessageDialog(rootPane, "Producto creado");
             listCollectionProductos(mongoClient, jl_productos);
             AgregarProducto.dispose();
-        }else{
+        } else {
             JOptionPane.showMessageDialog(rootPane, "Llene todos los espacios del formulario");
         }
-        
+
     }//GEN-LAST:event_jButton24ActionPerformed
+
+    private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
+        JOptionPane.showMessageDialog(this, "Compra realizada con exito.", "Alerta", JOptionPane.WARNING_MESSAGE);
+        System.exit(0);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton25ActionPerformed
+
+    private void jButton26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton26ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton26ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1570,6 +1729,7 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JDialog AgregarProducto;
     private javax.swing.JDialog AgregarPropietario;
     private javax.swing.JDialog COMPRA;
+    private javax.swing.JDialog COMPRA_ALMACENES;
     private javax.swing.JDialog CRUD;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JTextArea direccion_propietario;
@@ -1598,6 +1758,8 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton22;
     private javax.swing.JButton jButton23;
     private javax.swing.JButton jButton24;
+    private javax.swing.JButton jButton25;
+    private javax.swing.JButton jButton26;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -1626,6 +1788,7 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1644,6 +1807,8 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane13;
+    private javax.swing.JScrollPane jScrollPane14;
+    private javax.swing.JScrollPane jScrollPane15;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -1653,6 +1818,7 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JList<String> jl_almacencompra;
     private javax.swing.JList<String> jl_almacenes;
     private javax.swing.JList<String> jl_compra;
     private javax.swing.JList<String> jl_farmaceuticos;
@@ -1660,6 +1826,7 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JList<String> jl_farmacias1;
     private javax.swing.JList<String> jl_farmacias2;
     private javax.swing.JList<String> jl_laboratorios;
+    private javax.swing.JList<String> jl_medicamentosalmacen;
     private javax.swing.JList<String> jl_productos;
     private javax.swing.JList<String> jl_propietarios;
     private javax.swing.JTextField nombre_farmaceutico;
@@ -1680,6 +1847,7 @@ public class MainGUI extends javax.swing.JFrame {
     MongoDatabase database;
     int idalmacen;
     int idfarmacia;
+
     public int idparse(JList lista) {
         String x = (String) lista.getSelectedValue();
         int inicio, fin;
@@ -1698,9 +1866,9 @@ public class MainGUI extends javax.swing.JFrame {
         int id = (int) Math.round(p);
         return id;
     }
-    
-    public int idNextValue(JList lista){
-        int id=0;
+
+    public int idNextValue(JList lista) {
+        int id = 0;
         for (int i = 0; i < lista.getModel().getSize(); i++) {
             String x = (String) lista.getModel().getElementAt(i);
             int inicio, fin;
@@ -1716,9 +1884,9 @@ public class MainGUI extends javax.swing.JFrame {
                 }
             }
             Double p = Double.parseDouble(x.substring(inicio, fin));
-            int id2=(int) Math.round(p);
-            if (id<id2) {
-                id=id2;
+            int id2 = (int) Math.round(p);
+            if (id < id2) {
+                id = id2;
             }
         }
         id++;
